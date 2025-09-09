@@ -3,6 +3,9 @@ from bot import BasicBot
 def main():
     bot = BasicBot()
 
+    # Check balance before placing orders
+    bot.check_balance("USDT")
+
     symbol = input("Enter symbol (e.g., BTCUSDT): ").upper()
     side = input("Enter side (BUY/SELL): ").upper()
     order_type = input("Enter order type (MARKET/LIMIT): ").upper()

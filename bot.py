@@ -19,6 +19,7 @@ logging.basicConfig(
 class BasicBot:
     def __init__(self):
         self.client = Client(API_KEY, API_SECRET, testnet=True)
+        self.client.FUTURES_URL = "https://testnet.binancefuture.com/fapi"
 
     def place_market_order(self, symbol, side, quantity):
         """Place a MARKET order"""
@@ -51,3 +52,15 @@ class BasicBot:
         except Exception as e:
             logging.error(f"Error placing limit order: {e}")
             return None
+    def check_balance(self, asset="USDT"):
+        """Check Futures wallet balance for a given asset"""
+        try:
+            balances = self.client.futures_account_balance()
+            for b in balances:
+                if b['asset'] == asset:
+                    print(f"Available {asset} Balance:", b['balance'])
+                    return float(b['balance'])
+            return 0.0
+        except Exception as e:
+            print(f"Error fetching balance: {e}")
+            return 0.0
